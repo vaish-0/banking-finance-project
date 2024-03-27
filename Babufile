@@ -3,6 +3,10 @@ pipeline {
     tools{
       maven 'M2_HOME'
           }
+     environment {
+      AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+      AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+                }
    stages {
     stage('Git checkout') {
       steps {
@@ -39,11 +43,21 @@ pipeline {
         sh 'docker push cbabu85/may-banking-project:2.0'
                                 }
             }
-    stage('Ansbile config and Deployment') {
+ //   stage('Ansbile config and Deployment') {
+ //     steps {
+ //       ansiblePlaybook credentialsId: 'ansible-ssh', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'ansibledeploy.yml', vaultTmpPath: ''
+ //                              }
+//          }
+      stage('Terraform creation of EC2 Instance for deployment') {
       steps {
-        ansiblePlaybook credentialsId: 'ansible-ssh', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'ansibledeploy.yml', vaultTmpPath: ''
-                               }
+         dir('terraform-files') {
+         sh 'sudo chmod 600 learnawskey.pem
+         sh 'terraform init'
+         sh 'terraform validate'
+         sh 'terraform plan --auto-approve'
+         sh 'terraform apply --auto-approve'
+                                }
             }
-
+        }
     }
 }
