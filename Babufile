@@ -54,7 +54,6 @@ pipeline {
          sh 'sudo chmod 600 learnawskey.pem'
          sh 'terraform init'
          sh 'terraform validate'
-         sh 'terraform plan --auto-approve'
          sh 'terraform apply --auto-approve'
                                 }
             }
