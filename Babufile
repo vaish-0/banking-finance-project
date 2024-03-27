@@ -19,12 +19,12 @@ pipeline {
 
     stage('Publish the HTML Reports') {
       steps {
-          publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/Insure-Project/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+          publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/Banking-Project/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
                         }
             }
     stage('Create a Docker image from the Package Insure-Me.jar file') {
       steps {
-        sh 'docker build -t cbabu85/insure-me-app:4.0 .'
+        sh 'docker build -t cbabu85/may-banking-project:2.0 .'
                     }
             }
     stage('Login to Dockerhub') {
@@ -36,12 +36,12 @@ pipeline {
             }
     stage('Push the Docker image') {
       steps {
-        sh 'docker push cbabu85/insure-me-app:4.0'
+        sh 'docker push cbabu85/may-banking-project:2.0'
                                 }
             }
     stage('Ansbile config and Deployment') {
       steps {
-        ansiblePlaybook credentialsId: 'ansible-ssh', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'ansible.yml', vaultTmpPath: ''
+        ansiblePlaybook credentialsId: 'ansible-ssh', disableHostKeyChecking: true, installation: 'ansible', inventory: '/etc/ansible/hosts', playbook: 'ansibledeploy.yml', vaultTmpPath: ''
                                }
             }
 
