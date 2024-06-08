@@ -20,5 +20,5 @@ resource "aws_instance" "New-test-server" {
   }
   provisioner "local-exec" {
     command = "ansible-playbook /var/lib/jenkins/workspace/Banking-Project/terraform-files/ansibleplaybook.yml"
-  }
+         }
   }
