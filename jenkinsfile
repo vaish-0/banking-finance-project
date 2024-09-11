@@ -11,7 +11,7 @@ pipeline {
     stage('Git checkout') {
       steps {
          echo 'This is for cloning the gitrepo'
-         git branch: 'master', url: 'https://github.com/challadevops1/star-agile-banking-finance.git'
+         git branch: 'master', url: ''
                           }
             }
     stage('Create a Package') {
@@ -23,7 +23,7 @@ pipeline {
 
     stage('Publish the HTML Reports') {
       steps {
-          publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/Banking-Project/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
+          publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: '/var/lib/jenkins/workspace/Finance-me/target/surefire-reports', reportFiles: 'index.html', reportName: 'HTML Report', reportTitles: '', useWrapperFileDirectly: true])
                         }
             }
     stage('Create a Docker image from the Package Insure-Me.jar file') {
