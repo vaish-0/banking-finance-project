@@ -4,7 +4,7 @@
   connection: ssh
   tasks:
   - name: updating the New Ec2 Machine 
-    command: sudo apt update
+    command: sudo apt update -y
 
   - name: Install Docker
     command: sudo apt install docker.io -y
