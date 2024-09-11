@@ -11,7 +11,7 @@ pipeline {
     stage('Git checkout') {
       steps {
          echo 'This is for cloning the gitrepo'
-         git branch: 'master', url: ''
+         git branch: 'master', url: 'https://github.com/vaish-0/banking-finance-project.git'
                           }
             }
     stage('Create a Package') {
