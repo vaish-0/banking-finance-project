@@ -1,20 +1,27 @@
-- name: Docker configure in Ec2 Machine
+- name: Docker configure in EC2 Machine
   hosts: all
-  become : true
-  connection: ssh
+  become: true
   tasks:
-  - name: updating the New Ec2 Machine 
-    command: sudo apt update -y
+    - name: Update the EC2 Machine
+      apt:
+        update_cache: yes
 
-  - name: Install Docker
-    command: sudo apt install docker.io -y
-    become: yes
-    become_user: root
+    - name: Install Docker
+      apt:
+        name: docker.io
+        state: present
 
-  - name: Start Docker service
-    command: sudo systemctl start docker
-    become: yes
-    become_user: root
+    - name: Start Docker service
+      systemd:
+        name: docker
+        state: started
+        enabled: yes
 
-  - name: Deploy the Image and Run as Container
-    command: docker run -itd -p 8083:8081 vaish010/project-finance-me:1.0
+    - name: Deploy the Image and Run as Container
+      docker_container:
+        name: finance-container
+        image: vaish010/project-finance-me:1.0
+        state: started
+        published_ports:
+          - "8083:8081"
+        restart_policy: always
